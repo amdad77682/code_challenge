@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { getAlbumsData } from "../actions";
 import { bindActionCreators } from "redux";
 import { store } from "../../../store";
+import AlbumListComponent from "../components/AlbumListComponent";
+
 class AlbumListContainer extends Component {
   static navigationOptions = ({ navigation, screenProps }) => {
     const { params = {} } = navigation.state;
@@ -18,24 +20,34 @@ class AlbumListContainer extends Component {
       headerRight: headerRight
     };
   };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loading: false
+    };
+  }
   componentDidMount = () => {
+    this.setState({ loading: true });
     this.props.getAlbumsData((err, res) => {
-      alert(res);
-      console.log("res", res);
+      if (res) {
+        this.setState({ loading: false });
+      }
     });
   };
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-      </View>
+      <AlbumListComponent
+        albumsList={this.props.albumsList}
+        loading={this.state.loading}
+      />
     );
   }
 }
 
 const mapStateToProps = store => {
   return {
-    albums: store.albums
+    albumsList: store.albums.albumsList
   };
 };
 
@@ -49,22 +61,6 @@ export default connect(
 )(AlbumListContainer);
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5FCFF"
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: "center",
-    margin: 10
-  },
-  instructions: {
-    textAlign: "center",
-    color: "#333333",
-    marginBottom: 5
-  },
   navHeaderStyle: {
     backgroundColor: "#333333"
   },

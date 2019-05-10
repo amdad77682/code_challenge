@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-  albums: {}
+  albumsList: {}
 };
 
 export const albumReducer = (state = INITIAL_STATE, action) => {
@@ -7,7 +7,7 @@ export const albumReducer = (state = INITIAL_STATE, action) => {
     case "GET_ALBUMS_RESOLVED":
       return {
         ...state,
-        albums: action.payload
+        albumsList: action.payload
       };
     default:
       return state;

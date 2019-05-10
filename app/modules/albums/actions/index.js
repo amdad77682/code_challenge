@@ -12,13 +12,11 @@ export const getAlbumsData = callback => {
     axios
       .get(baseUrl.albums)
       .then(res => {
-        console.log("action", res);
-
         dispatch({
           type: "GET_ALBUMS_RESOLVED",
-          payload: res
+          payload: res.data
         });
-        callback(null, res);
+        callback(null, res.data);
       })
       .catch(e => {
         dispatch({ type: "GET_ALBUMS_FAILED", payload: e });
