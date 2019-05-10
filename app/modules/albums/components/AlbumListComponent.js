@@ -6,17 +6,30 @@ import {
   Text,
   View,
   Image,
-  Dimensions
+  Dimensions,
+  ScrollView
 } from "react-native";
 import { GlobalStyles } from "../../config/styles";
 import { BarsLoader } from "../../common/BarsLoader";
+import { SHADOW } from "../../config/styles/shadow";
+import { SearchField } from "../../common/SearchField";
+import { EmptyListView } from "../../common/EmptyListView";
 const { width } = Dimensions.get("window");
 export default class AlbumListComponent extends Component {
   renderItem = item => {
     console.log(item);
 
     return (
-      <View style={{ margin: GlobalStyles.PADDING }}>
+      <View
+        style={[
+          SHADOW.elevation_8,
+          {
+            marginLeft: GlobalStyles.PADDING,
+            marginRight: GlobalStyles.PADDING,
+            marginTop: 10
+          }
+        ]}
+      >
         <View
           style={[
             GlobalStyles.FLEX_ROW,
@@ -49,7 +62,7 @@ export default class AlbumListComponent extends Component {
         </View>
         <Image
           style={{ height: 105, width: "100%" }}
-          //resizeMode="center"
+          resizeMode="stretch"
           source={{ uri: item.item.image }}
         />
       </View>
@@ -60,13 +73,38 @@ export default class AlbumListComponent extends Component {
 
     return (
       <View style={styles.container}>
+        <SearchField
+          customStyles={{
+            flex: 1,
+            marginBottom: 0,
+            shadowRadius: 0,
+            shadowOpacity: 0,
+            height: 42
+          }}
+          onChangeText={this.props.setQuery}
+          placeholder={"Search for album"}
+          onSearchPress={this.props.onSearch}
+          onCrossPress={this.props.reset}
+          value={this.props.query}
+          returnKeyType="done"
+        />
+
         {!this.props.loading ? (
-          <FlatList
-            //extraData={this.state}
-            data={this.props.albumsList}
-            keyExtractor={this._keyExtractor}
-            renderItem={this.renderItem}
-          />
+          <ScrollView>
+            <FlatList
+              //extraData={this.state}
+              data={this.props.albumsList}
+              keyExtractor={this._keyExtractor}
+              renderItem={this.renderItem}
+              contentContainerStyle={[
+                { flexGrow: 1, marginBottom: 20 },
+                this.props.albumsList.length
+                  ? null
+                  : { justifyContent: "center" }
+              ]}
+              ListEmptyComponent={<EmptyListView message="No album found" />}
+            />
+          </ScrollView>
         ) : (
           <BarsLoader />
         )}

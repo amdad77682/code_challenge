@@ -24,22 +24,50 @@ class AlbumListContainer extends Component {
     super(props);
 
     this.state = {
-      loading: false
+      loading: false,
+      query: "",
+      albums: []
     };
   }
   componentDidMount = () => {
     this.setState({ loading: true });
     this.props.getAlbumsData((err, res) => {
       if (res) {
-        this.setState({ loading: false });
+        this.setState({ albums: res, loading: false });
       }
     });
   };
+
+  setQuery = query => {
+    this.setState({
+      query: query,
+      albums: this.props.albumsList.filter(item => {
+        return item.title.toLowerCase().indexOf(query.toLowerCase()) > -1;
+      })
+    });
+  };
+  onSearch = () => {
+    this.setState({
+      albums: this.props.albumsList.filter(item => {
+        return (
+          item.title.toLowerCase().indexOf(this.state.query.toLowerCase()) > -1
+        );
+      })
+    });
+  };
+  reset = () => {
+    this.setState({ query: "", albums: this.props.albumsList });
+  };
+
   render() {
     return (
       <AlbumListComponent
-        albumsList={this.props.albumsList}
+        albumsList={this.state.albums}
         loading={this.state.loading}
+        query={this.state.query}
+        setQuery={this.setQuery}
+        onSearch={this.onSearch}
+        reset={this.reset}
       />
     );
   }
@@ -62,11 +90,11 @@ export default connect(
 
 const styles = StyleSheet.create({
   navHeaderStyle: {
-    backgroundColor: "#333333"
+    backgroundColor: "#F5FCFF"
   },
   navHeaderTitleStyle: StyleSheet.flatten([
     {
-      color: "#F5FCFF"
+      color: "#333333"
     },
     { fontSize: 16 }
   ])
