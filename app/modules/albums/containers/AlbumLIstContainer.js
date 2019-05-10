@@ -1,22 +1,10 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
-
-const instructions = Platform.select({
-  ios: "Press Cmd+R to reload,\n" + "Cmd+D or shake for dev menu",
-  android:
-    "Double tap R on your keyboard to reload,\n" +
-    "Shake or press menu button for dev menu"
-});
-
-export default class AlbumListContainer extends React.Component {
+import { connect } from "react-redux";
+import { getAlbumsData } from "../actions";
+import { bindActionCreators } from "redux";
+import { store } from "../../../store";
+class AlbumListContainer extends Component {
   static navigationOptions = ({ navigation, screenProps }) => {
     const { params = {} } = navigation.state;
     var headerLeft = null;
@@ -30,6 +18,12 @@ export default class AlbumListContainer extends React.Component {
       headerRight: headerRight
     };
   };
+  componentDidMount = () => {
+    this.props.getAlbumsData((err, res) => {
+      alert(res);
+      console.log("res", res);
+    });
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -38,6 +32,21 @@ export default class AlbumListContainer extends React.Component {
     );
   }
 }
+
+const mapStateToProps = store => {
+  return {
+    albums: store.albums
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({ getAlbumsData }, dispatch);
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AlbumListContainer);
 
 const styles = StyleSheet.create({
   container: {
@@ -61,7 +70,7 @@ const styles = StyleSheet.create({
   },
   navHeaderTitleStyle: StyleSheet.flatten([
     {
-      color: "black"
+      color: "#F5FCFF"
     },
     { fontSize: 16 }
   ])

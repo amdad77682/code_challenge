@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
+import { albumReducer } from "../modules/albums/reducer";
 const appReducers = combineReducers({
-  auth: authenticateReducer
+  albums: albumReducer
 });
 
 const reducers = (state, action) => {

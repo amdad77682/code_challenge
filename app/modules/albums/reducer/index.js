@@ -1,13 +1,13 @@
 const INITIAL_STATE = {
-  kycInfo: {}
+  albums: {}
 };
 
-export const kycReducer = (state = INITIAL_STATE, action) => {
+export const albumReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case "GET_KYC_INFO_RESOLVED":
+    case "GET_ALBUMS_RESOLVED":
       return {
         ...state,
-        kycInfo: action.payload
+        albums: action.payload
       };
     default:
       return state;
