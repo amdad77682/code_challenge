@@ -7,7 +7,7 @@ You need to display a list of albums in card view and do search any album with t
 search box. Every card section will contain Header and Body. The header contains a thumbnail
 image, title, and artist. The body contains the only image. You can find sample card design below:
 
-
+<img width="289" alt="demo" src="https://user-images.githubusercontent.com/23288785/57567524-4fd7b400-73fc-11e9-944a-2e5c9e6f6d3b.png">
 
 ## Build in ios
 
