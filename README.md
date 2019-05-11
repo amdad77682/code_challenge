@@ -8,6 +8,7 @@ search box. Every card section will contain Header and Body. The header contains
 image, title, and artist. The body contains the only image. You can find sample card design below:
 
 
+
 ## Build in ios
 
 
